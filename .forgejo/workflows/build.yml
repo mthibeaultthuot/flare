@@ -11,14 +11,11 @@ jobs:
     container:
       image: rust:latest
     steps:
-      - name: Install Node.js (required for actions)
-        run: |
-          apt-get update
-          apt-get install -y nodejs
-          
       - name: Checkout code
-        uses: actions/checkout@v4
-        
+        uses: https://code.forgejo.org/actions/checkout@v4
+        # OR if using Forgejo 7.0+:
+        # uses: forgejo/checkout@v4
+      
       - name: Show repo structure
         run: |
           echo "Current dir:" $(pwd)
@@ -26,13 +23,13 @@ jobs:
           ls -la
           echo "Looking for flare directory:"
           find . -name "flare" -type d
-          
+      
       - name: Setup Rust
         run: rustup component add clippy rustfmt
-        
+      
       - name: Build & Test
+        working-directory: flare
         run: |
-          cd flare  # Manual cd instead of working-directory
           cargo fmt --all -- --check
           cargo clippy --workspace --all-targets --all-features -- -D warnings
           cargo test --workspace --all-targets

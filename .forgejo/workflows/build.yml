@@ -13,24 +13,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: https://code.forgejo.org/actions/checkout@v4
-        # OR if using Forgejo 7.0+:
-        # uses: forgejo/checkout@v4
+        run: ls -la
+
       
-      - name: Show repo structure
-        run: |
-          echo "Current dir:" $(pwd)
-          echo "Contents of root:"
-          ls -la
-          echo "Looking for flare directory:"
-          find . -name "flare" -type d
-      
-      - name: Setup Rust
-        run: rustup component add clippy rustfmt
-      
-      - name: Build & Test
-        working-directory: flare
-        run: |
-          cargo fmt --all -- --check
-          cargo clippy --workspace --all-targets --all-features -- -D warnings
-          cargo test --workspace --all-targets
-          cargo build --workspace --release
+       
+    

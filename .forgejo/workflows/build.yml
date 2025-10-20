@@ -13,11 +13,8 @@ jobs:
         uses: https://code.forgejo.org/actions/checkout@v4
       - name: Install rust toolchain
         run: |
-          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -y
-          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh 
           source $HOME/.cargo/env
-          rustc --version
-          cargo --version
 
 
       

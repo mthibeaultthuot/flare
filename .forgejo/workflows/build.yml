@@ -11,6 +11,11 @@ jobs:
     container:
       image: rust:latest
     steps:
+      - name: Install Node.js (required for actions)
+        run: |
+          apt-get update
+          apt-get install -y nodejs
+          
       - name: Checkout code
         uses: actions/checkout@v4
         

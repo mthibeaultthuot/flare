@@ -1,0 +1,17 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/flare-ir",
+    "crates/flare",
+]
+
+[workspace.package]
+edition = "2021"
+license = "MIT"
+authors = ["Mathieu Thibeault-Thuot <you@veemlabs.ai>"]
+repository = "https://github.com/veemlabs/flare"
+
+[workspace.dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "1.0"

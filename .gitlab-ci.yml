@@ -1,0 +1,38 @@
+image: rust:latest
+
+stages:
+  - build
+  - test
+
+variables:
+  CARGO_HOME: "$CI_PROJECT_DIR/.cargo"
+
+cache:
+  key:
+    files:
+      - Cargo.lock
+  paths:
+    - target
+    - .cargo/registry
+    - .cargo/git
+
+build:
+  stage: build
+  tags:
+    - docker
+  script:
+    - cargo fetch
+    - cargo build
+  only:
+    - branches
+    - tags
+
+test:
+  stage: test
+  tags:
+    - docker
+  script:
+    - cargo test 
+  only:
+    - branches
+    - tags

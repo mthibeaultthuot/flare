@@ -12,10 +12,12 @@ jobs:
       image: rust:latest
 
     steps:
-      - name: Clone repo
+      - name: Show repo info
         run: |
-          git clone "$CI_REPO_URL" .
-          git checkout "$CI_COMMIT_SHA"
+          echo "Repository is already checked out."
+          echo "Current dir:" $(pwd)
+          echo "Contents:"
+          ls -la
 
       - name: Setup Rust
         run: rustup component add clippy rustfmt

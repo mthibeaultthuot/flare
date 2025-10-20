@@ -12,7 +12,7 @@ jobs:
       - name: Checkout code
         uses: https://code.forgejo.org/actions/checkout@v4
       - name: list directory contents
-        run: ls -la
+        run: cargo run
 
       
        

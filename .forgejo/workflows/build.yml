@@ -19,19 +19,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         
-      - name: Show repo info
+      - name: Show repo structure
         run: |
-          echo "Repository checked out successfully"
           echo "Current dir:" $(pwd)
-          echo "Contents:"
+          echo "Contents of root:"
           ls -la
+          echo "Looking for flare directory:"
+          find . -name "flare" -type d
           
       - name: Setup Rust
         run: rustup component add clippy rustfmt
         
       - name: Build & Test
-        working-directory: flare
         run: |
+          cd flare  # Manual cd instead of working-directory
           cargo fmt --all -- --check
           cargo clippy --workspace --all-targets --all-features -- -D warnings
           cargo test --workspace --all-targets

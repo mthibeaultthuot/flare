@@ -1,0 +1,26 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/flare-ir",
+    "crates/flare",
+    "crates/flare-codegen-metal",
+    "crates/flare-test",
+    "crates/flare-cli",
+    "crates/flare-py-bindings",
+]
+
+[workspace.package]
+edition = "2021"
+license = "MIT"
+authors = ["Mathieu Thibeault-Thuot <you@veemlabs.ai>"]
+repository = "https://github.com/veemlabs/flare"
+
+[workspace.dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "1.0"
+
+falre = {path = "crates/flare", version = "0.1.0"}
+flare-codegen-metal = {path = "crates/flare-codegen-metal", version = "0.1.0"}
+flare-ir = {path = "crates/flare-ir", version = "0.1.0"}
+flare-test = {path = "crates/flare-test", version = "0.1.0"}

@@ -1,0 +1,117 @@
+# =========================
+# Rust Monorepo Ignore
+# =========================
+
+# --- Cargo ---
+target/
+**/target/
+Cargo.lock         # keep this ignored for libraries; commit only for binaries
+*.rs.bk
+*.rlib
+
+# --- Build outputs ---
+*.a
+*.o
+*.so
+*.dylib
+*.dll
+*.exe
+*.out
+
+# --- Docs / generated outputs ---
+**/doc/
+**/book/
+**/coverage/
+**/dist/
+**/public/
+**/build/
+**/wasm-pack/
+
+# --- Rust tooling ---
+/.rustup/
+/.cargo/
+**/.cargo/
+**/.rustup/
+**/.rustfmt.toml.bk
+**/.clippy.toml.bk
+**/.rustdoc/
+**/.cache/
+**/Cargo.lock.old
+
+# --- IDEs & Editors ---
+# VSCode
+.vscode/
+# JetBrains (CLion, RustRover)
+.idea/
+# Zed / Helix / Neovim
+.zed/
+.cache/
+.tags
+*.swp
+*.swo
+# macOS
+.DS_Store
+# Linux
+*~
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# --- Logs & Temp ---
+*.log
+*.tmp
+*.bak
+*.old
+*.swp
+*.swo
+*.lock
+*.pid
+*.seed
+*.out
+
+# --- Testing / Coverage ---
+**/coverage/
+**/profraw/
+**/profdata/
+**/grcov/
+**/lcov.info
+**/htmlcov/
+
+# --- CI / Build Artifacts ---
+**/.github/workflows/tmp/
+**/.gitlab-ci.yml.bak
+**/.ci-cache/
+**/ci-artifacts/
+**/.cargo-build-cache/
+
+# --- Web / Docs (for your SvelteKit site) ---
+labs-site/.svelte-kit/
+labs-site/.vercel/
+labs-site/.netlify/
+labs-site/node_modules/
+labs-site/.pnpm-store/
+labs-site/dist/
+labs-site/build/
+labs-site/static/generated/
+labs-site/.env
+labs-site/.env.*
+labs-site/package-lock.json
+labs-site/pnpm-lock.yaml
+labs-site/yarn.lock
+
+# --- Python scripts (if used for docgen) ---
+*.pyc
+__pycache__/
+.venv/
+
+# --- Backups / Misc ---
+*.bak
+*.orig
+*.rej
+*#
+
+# --- Local env ---
+.env
+.env.*
+

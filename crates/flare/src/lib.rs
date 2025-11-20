@@ -1,11 +1,10 @@
-pub mod ast;
 pub mod error;
 pub mod lexer;
 pub mod parser;
 
 pub use crate::lexer::token::Token;
-pub use ast::Program;
 pub use error::FlareError;
+pub use flare_ir::hir::*;
 pub use lexer::core::Lexer;
 pub use parser::core::Parser;
 
@@ -26,7 +25,7 @@ mod tests {
     #[test]
     fn test_matmul_naive_loops() {
         let source = r#"
-            kernel matmul_naive(A: Tensor<f32, [M, K]>, B: Tensor<f32, [K, N]>) -> Tensor<f32, [M, N]> {
+            kernel matmul_naive(A: Tensor<f32, [M, K]>, B: Tensor<f3w, [K, N]>) -> Tensor<f32, [M, N]> {
                 grid: [M, N]
                 block: [1]
 
@@ -55,7 +54,7 @@ mod tests {
     fn simple_parsing() {
         let source = r#"
             kernel simple_allocation() {
-                let i = 67;
+                let i = 1;
             }
         "#;
         let mut lexer = Lexer::new(source);

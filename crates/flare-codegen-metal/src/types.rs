@@ -1,5 +1,5 @@
 use crate::error::{CodegenError, Result};
-use flare::ast::Type;
+use flare_ir::hir::*;
 use std::ops::Range;
 
 #[derive(Debug, Clone, PartialEq, Eq)]

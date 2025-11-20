@@ -1,7 +1,7 @@
 use super::core::Parser;
-use crate::ast::*;
 use crate::lexer::token::TokenKind;
 use crate::FlareError;
+use flare_ir::hir::*;
 
 impl<'src> Parser<'src> {
     pub(crate) fn parse_expression(&mut self) -> Result<Expr<'src>, FlareError> {

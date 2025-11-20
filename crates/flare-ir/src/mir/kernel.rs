@@ -1,4 +1,4 @@
-use flare::ast::KernelDef;
+use crate::hir::KernelDef;
 
 use crate::mir::{core::MIR, error::LoweringError};
 

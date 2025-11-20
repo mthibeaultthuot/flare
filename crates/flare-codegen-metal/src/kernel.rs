@@ -1,7 +1,7 @@
 use crate::error::{CodegenError, Result};
 use crate::stmt::StmtGenerator;
 use crate::types::TypeConverter;
-use flare::ast::{KernelDef, Param, ScheduleBlock, ScheduleDirective, SharedMemoryDecl};
+use flare_ir::hir::*;
 use std::fmt::Write;
 
 #[derive(Debug, Clone)]

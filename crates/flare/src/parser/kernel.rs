@@ -1,7 +1,7 @@
 use super::core::Parser;
-use crate::ast::*;
 use crate::lexer::token::TokenKind;
 use crate::FlareError;
+use flare_ir::hir::*;
 
 impl<'src> Parser<'src> {
     pub(crate) fn parse_kernel(&mut self) -> Result<KernelDef<'src>, FlareError> {
@@ -39,11 +39,14 @@ impl<'src> Parser<'src> {
 
                 params.push(Param {
                     name: param_name,
-                    ty: param_type,
+                    ty: param_type.clone(),
                     span: param_span,
                 });
+                println!("{:?}", param_name);
+                println!("{:?}", self.tokens[self.current]);
 
                 if !self.match_token(&TokenKind::Comma) {
+                    println!("{:?}", param_type);
                     break;
                 }
             }

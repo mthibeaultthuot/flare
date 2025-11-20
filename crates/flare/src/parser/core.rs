@@ -1,12 +1,12 @@
-use crate::ast::*;
 use crate::lexer::token::{Token, TokenKind};
 use crate::{FlareError, Lexer};
+use flare_ir::hir::*;
 use std::ops::Range;
 
 pub struct Parser<'src> {
     source: &'src str,
-    tokens: Vec<Token<'src>>,
-    current: usize,
+    pub tokens: Vec<Token<'src>>,
+    pub current: usize,
 }
 
 impl<'src> Parser<'src> {

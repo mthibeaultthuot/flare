@@ -257,8 +257,7 @@ pub enum TokenKind {
     DoubleColon,
     #[token("?")]
     Question,
-    
-    
+
     #[token("...")]
     Ellipsis,
 
@@ -292,8 +291,6 @@ pub enum TokenKind {
     Identifier(String),
     #[token("\n")]
     Newline,
-    
-    
 }
 
 #[derive(Debug, Clone, PartialEq)]

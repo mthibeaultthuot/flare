@@ -5,7 +5,7 @@ pub mod stmt;
 pub mod types;
 
 use error::{CodegenError, Result};
-use flare::ast::{Program, Stmt};
+use flare_ir::hir::*;
 use kernel::{KernelConfig, KernelGenerator};
 use std::fmt::Write;
 
@@ -138,25 +138,41 @@ mod tests {
     #[test]
     fn test_matmul_naive_metal_codegen() {
         let source = r#"
-            kernel matmul_naive(A: Tensor<f32, [M, K]>, B: Tensor<f32, [K, N]>) -> Tensor<f32, [M, N]> {
+            kernel matmul_naive(A: Tensor<f32, [M, K]>,
+                                B: Tensor<f32, [K, N]>,
+                                C: Tensor<f32, [M, N]>) -> Tensor<f32, [M, N]> {
                 grid: [M, N]
                 block: [1]
 
                 compute {
-                    let row = block_idx.y
-                    let col = block_idx.x
-                    var sum: f32 = 0.0
+                    let row = grid_idx.y
+                    let col = grid_idx.x
+                    let sum: f32 = 0.0
 
                     for k in 0..K {
-                        sum = sum + A[row, k] * B[k, col]
+                        sum += A[row, k] * B[k, col]
                     }
 
-                    output[row, col] = sum
+                    C[row, col] = sum
                 }
             }
         "#;
 
         let program = Flare::compile_from_string(source).expect("failed to parse kernel");
         let metal_code = compile(&program).expect("failed to generate Metal code");
+        println!("{}", metal_code);
+    }
+
+    #[test]
+    fn simple_parsing() {
+        let source = r#"
+            kernel simple_allocation() {
+                let i = 1;
+            }
+        "#;
+
+        let program = Flare::compile_from_string(source).expect("failed to parse kernel");
+        let metal_code = compile(&program).expect("failed to generate Metal code");
+        println!("{}", metal_code);
     }
 }

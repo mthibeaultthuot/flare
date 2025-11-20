@@ -1,6 +1,6 @@
 use crate::error::{CodegenError, Result};
 use crate::types::TypeConverter;
-use flare::ast::{BinOp, Expr, UnOp};
+use flare_ir::hir::*;
 
 pub struct ExprGenerator {
     indent_level: usize,

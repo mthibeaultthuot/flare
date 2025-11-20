@@ -2,7 +2,7 @@ use std::ops::Range;
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct ScheduleBlock<'src> {
-    pub target: Option<&'src str>, 
+    pub target: Option<&'src str>,
     pub directives: Vec<ScheduleDirective<'src>>,
     pub span: Range<usize>,
 }

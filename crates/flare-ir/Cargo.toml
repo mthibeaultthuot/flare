@@ -7,5 +7,4 @@ authors.workspace = true
 repository.workspace = true
 
 [dependencies]
-flare = { path = "../flare" }
 thiserror.workspace = true

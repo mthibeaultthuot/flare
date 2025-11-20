@@ -8,6 +8,7 @@ repository.workspace = true
 
 [dependencies]
 flare = { path = "../flare" }
+flare-ir = { path = "../flare-ir" }
 thiserror.workspace = true
 serde.workspace = true
 serde_json.workspace = true

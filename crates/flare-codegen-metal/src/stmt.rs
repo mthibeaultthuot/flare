@@ -1,7 +1,7 @@
 use crate::error::{CodegenError, Result};
 use crate::expr::ExprGenerator;
 use crate::types::TypeConverter;
-use flare::ast::Stmt;
+use flare_ir::hir::*;
 use std::fmt::Write;
 
 pub struct StmtGenerator {
@@ -119,9 +119,9 @@ impl StmtGenerator {
     fn generate_function(
         &mut self,
         name: &str,
-        params: &[flare::ast::Param],
-        return_type: Option<&flare::ast::Type>,
-        body: &flare::ast::Expr,
+        params: &[Param],
+        return_type: Option<&Type>,
+        body: &Expr,
         span: std::ops::Range<usize>,
     ) -> Result<String> {
         let mut output = String::new();
@@ -158,12 +158,7 @@ impl StmtGenerator {
         Ok(output)
     }
 
-    fn generate_let(
-        &mut self,
-        name: &str,
-        ty: Option<&flare::ast::Type>,
-        value: &flare::ast::Expr,
-    ) -> Result<String> {
+    fn generate_let(&mut self, name: &str, ty: Option<&Type>, value: &Expr) -> Result<String> {
         let value_code = self.expr_gen.generate(value)?;
 
         match ty {
@@ -189,8 +184,8 @@ impl StmtGenerator {
     fn generate_var(
         &mut self,
         name: &str,
-        ty: Option<&flare::ast::Type>,
-        value: Option<&flare::ast::Expr>,
+        ty: Option<&Type>,
+        value: Option<&Expr>,
     ) -> Result<String> {
         match (ty, value) {
             (Some(t), Some(v)) => {
@@ -229,12 +224,7 @@ impl StmtGenerator {
         }
     }
 
-    fn generate_const(
-        &mut self,
-        name: &str,
-        ty: Option<&flare::ast::Type>,
-        value: &flare::ast::Expr,
-    ) -> Result<String> {
+    fn generate_const(&mut self, name: &str, ty: Option<&Type>, value: &Expr) -> Result<String> {
         let value_code = self.expr_gen.generate(value)?;
 
         match ty {
@@ -259,7 +249,7 @@ impl StmtGenerator {
 
     fn generate_if(
         &mut self,
-        condition: &flare::ast::Expr,
+        condition: &Expr,
         then_branch: &Stmt,
         else_branch: Option<&Box<Stmt>>,
     ) -> Result<String> {
@@ -286,7 +276,7 @@ impl StmtGenerator {
         Ok(output)
     }
 
-    fn generate_while(&mut self, condition: &flare::ast::Expr, body: &Stmt) -> Result<String> {
+    fn generate_while(&mut self, condition: &Expr, body: &Stmt) -> Result<String> {
         let mut output = String::new();
 
         let cond_code = self.expr_gen.generate(condition)?;
@@ -305,12 +295,12 @@ impl StmtGenerator {
     fn generate_for(
         &mut self,
         var: &str,
-        iterator: &flare::ast::Expr,
+        iterator: &Expr,
         body: &Stmt,
         span: std::ops::Range<usize>,
     ) -> Result<String> {
         match iterator {
-            flare::ast::Expr::Range { start, end, .. } => {
+            Expr::Range { start, end, .. } => {
                 let start_code = match start {
                     Some(s) => self.expr_gen.generate(s)?,
                     None => "0".to_string(),
@@ -354,7 +344,7 @@ impl StmtGenerator {
         }
     }
 
-    fn generate_return(&mut self, value: Option<&flare::ast::Expr>) -> Result<String> {
+    fn generate_return(&mut self, value: Option<&Expr>) -> Result<String> {
         match value {
             Some(expr) => {
                 let expr_code = self.expr_gen.generate(expr)?;

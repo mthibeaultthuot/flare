@@ -6,17 +6,13 @@ use flare_ir::hir::*;
 impl<'src> Parser<'src> {
     pub(crate) fn parse_kernel(&mut self) -> Result<KernelDef<'src>, FlareError> {
         let start = self.expect(TokenKind::Kernel)?.span.start;
-        let name_token = self.expect(TokenKind::Identifier(String::new()))?;
-        let name_token_span = name_token.span.clone();
-        let name = self.get_string_from_span(&name_token_span);
+        let kernel_name = self.expect(TokenKind::Identifier(String::new()))?.text;
 
         let mut generic_params = Vec::new();
         if self.match_token(&TokenKind::Less) {
             loop {
-                let generic_token = self.expect(TokenKind::Identifier(String::new()))?;
-                let generic_span = generic_token.span.clone();
-                generic_params.push(self.get_string_from_span(&generic_span));
-
+                let generic_str = self.expect(TokenKind::Identifier(String::new()))?.text;
+                generic_params.push(generic_str);
                 if !self.match_token(&TokenKind::Comma) {
                     break;
                 }
@@ -29,24 +25,20 @@ impl<'src> Parser<'src> {
 
         if !self.check(&TokenKind::RightParen) {
             loop {
-                let param_start = self.peek().map(|t| t.span.start).unwrap_or(0);
-                let param_name_token = self.expect(TokenKind::Identifier(String::new()))?;
-                let param_name_token_span = param_name_token.span.clone();
-                let param_name = self.get_string_from_span(&param_name_token_span);
-                self.expect(TokenKind::Colon)?;
+                let param_token = self.expect(TokenKind::Identifier(String::new()))?;
+                let param_name = param_token.clone().text;
+                let param_span = param_token.clone().span;
+
+                self.expect(TokenKind::Colon).clone()?;
                 let param_type = self.parse_type()?;
-                let param_span = self.span_from(param_start);
 
                 params.push(Param {
                     name: param_name,
                     ty: param_type.clone(),
                     span: param_span,
                 });
-                println!("{:?}", param_name);
-                println!("{:?}", self.tokens[self.current]);
 
                 if !self.match_token(&TokenKind::Comma) {
-                    println!("{:?}", param_type);
                     break;
                 }
             }
@@ -85,7 +77,7 @@ impl<'src> Parser<'src> {
 
         let span = self.span_from(start);
         Ok(KernelDef {
-            name,
+            name: kernel_name,
             generic_params,
             params,
             return_type,
